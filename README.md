@@ -477,10 +477,10 @@ The collection includes ready-to-run examples for:
 
 ##  Author
 
-**Τσαλπατούρος Ανδρέας**
+**TSALPATOUROS ANDREW**
 
 - 🎓 Mobile & Distributed Systems · Μητροπολιτικό Κολλέγιο
-- 🐙 GitHub: [@your-username](https://github.com/your-username)
+- 🐙 GitHub: [ADWTSALPA](https://github.com/your-username)
 - 📧 Email: atsalpatouros23b@amcstudent.edu.gr
 
 ---
