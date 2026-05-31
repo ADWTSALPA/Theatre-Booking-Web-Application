@@ -50,15 +50,12 @@ Users can browse theatres and shows (each with its own image), search across mul
 
 | Login & Sign Up | Browse Theatres & Shows |
 |:---:|:---:|
-| ![Login](docs/screenshots/01-login.png) | ![Browse](docs/screenshots/03-browse.png) |
 | Tab switch · JWT auth · localStorage token | Image cards · badges · unified search |
 
 | Seat Selection | Reservation Management |
 |:---:|:---:|
-| ![Seats](docs/screenshots/04-seats.png) | ![Reservations](docs/screenshots/05-reservation.png) |
 | Stage indicator · row layout · multi-select | Live status · cancel button |
 
-> 💡 *Add your screenshots to `docs/screenshots/` to enable the previews above.*
 
 ---
 
@@ -447,8 +444,7 @@ A complete Postman collection is provided in `postman/`:
 
 1. Open **Postman**
 2. Click **Import** → drop both JSON files:
-   - `Theatre_Booking_API.postman_collection.json`
-   - `Theatre_Booking_Environment.postman_environment.json`
+   - `My Collection.postman_collection.json`
 3. Select the **"Theatre Booking — Local"** environment (top-right dropdown)
 4. Run **Auth → Login** first
    - The included test script auto-saves the JWT to `{{token}}`
