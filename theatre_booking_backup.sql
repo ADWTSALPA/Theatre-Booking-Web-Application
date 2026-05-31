@@ -32,7 +32,7 @@ CREATE TABLE `reservation_seats` (
   KEY `seat_id` (`seat_id`),
   CONSTRAINT `1` FOREIGN KEY (`reservation_id`) REFERENCES `reservations` (`reservation_id`),
   CONSTRAINT `2` FOREIGN KEY (`seat_id`) REFERENCES `seats` (`seat_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,6 +42,10 @@ CREATE TABLE `reservation_seats` (
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `reservation_seats` WRITE;
 /*!40000 ALTER TABLE `reservation_seats` DISABLE KEYS */;
+INSERT INTO `reservation_seats` VALUES
+(46,25,60),
+(47,25,65),
+(48,25,70);
 /*!40000 ALTER TABLE `reservation_seats` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
@@ -65,7 +69,7 @@ CREATE TABLE `reservations` (
   KEY `showtime_id` (`showtime_id`),
   CONSTRAINT `1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
   CONSTRAINT `2` FOREIGN KEY (`showtime_id`) REFERENCES `showtimes` (`showtime_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -88,7 +92,10 @@ INSERT INTO `reservations` VALUES
 (19,2,1,36.00,'cancelled'),
 (20,6,1,36.00,'cancelled'),
 (21,6,1,36.00,'cancelled'),
-(22,6,3,16.00,'cancelled');
+(22,6,3,16.00,'cancelled'),
+(23,2,1,54.00,'cancelled'),
+(24,7,1,54.00,'cancelled'),
+(25,8,1,54.00,'active');
 /*!40000 ALTER TABLE `reservations` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
@@ -122,17 +129,17 @@ SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `seats` WRITE;
 /*!40000 ALTER TABLE `seats` DISABLE KEYS */;
 INSERT INTO `seats` VALUES
-(60,1,'A',1,'VIP',0),
+(60,1,'A',1,'VIP',1),
 (61,2,'A',1,'VIP',0),
 (62,3,'A',1,'VIP',0),
 (63,4,'A',1,'VIP',0),
 (64,5,'A',1,'VIP',0),
-(65,1,'A',2,'VIP',0),
+(65,1,'A',2,'VIP',1),
 (66,2,'A',2,'VIP',0),
 (67,3,'A',2,'VIP',0),
 (68,4,'A',2,'VIP',0),
 (69,5,'A',2,'VIP',0),
-(70,1,'A',3,'VIP',0),
+(70,1,'A',3,'VIP',1),
 (71,2,'A',3,'VIP',0),
 (72,3,'A',3,'VIP',0),
 (73,4,'A',3,'VIP',0),
@@ -391,6 +398,7 @@ CREATE TABLE `shows` (
   `description` text DEFAULT NULL,
   `duration` int(11) DEFAULT NULL,
   `age_rating` varchar(20) DEFAULT NULL,
+  `image_url` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`show_id`),
   KEY `theatre_id` (`theatre_id`),
   CONSTRAINT `1` FOREIGN KEY (`theatre_id`) REFERENCES `theatres` (`theatre_id`)
@@ -405,10 +413,10 @@ SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `shows` WRITE;
 /*!40000 ALTER TABLE `shows` DISABLE KEYS */;
 INSERT INTO `shows` VALUES
-(1,1,'Οιδίπους Τύραννος','Αρχαία τραγωδία του Σοφοκλή',120,'15+'),
-(2,1,'Ηλέκτρα','Τραγωδία με σύγχρονη σκηνοθετική προσέγγιση',110,'15+'),
-(3,2,'Περιμένοντας τον Γκοντό','Θεατρικό έργο του Samuel Beckett',130,'12+'),
-(4,3,'Το Μεγάλο μας Τσίρκο','Ιστορικό και πολιτικό έργο',140,'12+');
+(1,1,'Οιδίπους Τύραννος','Αρχαία τραγωδία του Σοφοκλή',120,'15+','/images/show1.jpg'),
+(2,1,'Ηλέκτρα','Τραγωδία με σύγχρονη σκηνοθετική προσέγγιση',110,'15+','/images/show2.jpg'),
+(3,2,'Περιμένοντας τον Γκοντό','Θεατρικό έργο του Samuel Beckett',130,'12+','/images/show3.jpg'),
+(4,3,'Το Μεγάλο μας Τσίρκο','Ιστορικό και πολιτικό έργο',140,'12+','/images/show4.jpg');
 /*!40000 ALTER TABLE `shows` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
@@ -464,6 +472,7 @@ CREATE TABLE `theatres` (
   `name` varchar(100) DEFAULT NULL,
   `location` varchar(150) DEFAULT NULL,
   `description` text DEFAULT NULL,
+  `image_url` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`theatre_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -476,9 +485,9 @@ SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `theatres` WRITE;
 /*!40000 ALTER TABLE `theatres` DISABLE KEYS */;
 INSERT INTO `theatres` VALUES
-(1,'Εθνικό Θέατρο','Αθήνα','Κεντρική σκηνή με κλασικές και σύγχρονες παραστάσεις'),
-(2,'Θέατρο Τέχνης','Αθήνα','Μικρότερη σκηνή με έμφαση στο σύγχρονο έργο'),
-(3,'Δημοτικό Θέατρο Πειραιά','Πειραιάς','Ιστορικό θέατρο με μεγάλες παραγωγές');
+(1,'Εθνικό Θέατρο','Αθήνα','Κεντρική σκηνή με κλασικές και σύγχρονες παραστάσεις','/images/theatre1.jpg'),
+(2,'Θέατρο Τέχνης','Αθήνα','Μικρότερη σκηνή με έμφαση στο σύγχρονο έργο','/images/theatre2.jpg'),
+(3,'Δημοτικό Θέατρο Πειραιά','Πειραιάς','Ιστορικό θέατρο με μεγάλες παραγωγές','/images/theatre3.jpg');
 /*!40000 ALTER TABLE `theatres` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
@@ -497,7 +506,7 @@ CREATE TABLE `users` (
   `email` varchar(100) DEFAULT NULL,
   `password_hash` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -513,7 +522,9 @@ INSERT INTO `users` VALUES
 (3,'mitsotakis','mitsotakis@test.com','$2b$10$LONVvPpxmMmXEXjp1.jEl.ejKWRKYLCVKScZxbZ/y9lTv1jPp9xRu'),
 (4,'giannakopoulos','giannakopoulos@test.com','$2b$10$45pJ6/pSgUQBLdIYvP7yrO.hPOaO.Bc/jwGLVxfcl/WepFFWjm.yC'),
 (5,'marianna','marianna@test.com','$2b$10$/iionHYqxpMjq2GNcmQ8BeuQvu6Tg/fPw5HFjqO4CJUiZqSGgoUC.'),
-(6,'Tsalpas','tsalpas@gmail.com','$2b$10$7VTzQdETihPqWXK.1HKYxOUAoeSlgAIlIqghyMQOHmCdVbTzIYV4S');
+(6,'Tsalpas','tsalpas@gmail.com','$2b$10$7VTzQdETihPqWXK.1HKYxOUAoeSlgAIlIqghyMQOHmCdVbTzIYV4S'),
+(7,'olumpiakos','finalfour@gmail.com','$2b$10$6jiUUfsdFrRk4GUiSO5kquLBN/bt.VhpJ/YKHzk3jgBbdfXPEQKZS'),
+(8,'Test','test@gmail.com','$2b$10$QVUuPT6usTBgSIow4vM6kee5IYbaYag4.0Dh2hwVaPWJY/9K.V.r2');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
@@ -528,4 +539,4 @@ SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2026-05-24 21:16:53
+-- Dump completed on 2026-05-31  0:57:24
