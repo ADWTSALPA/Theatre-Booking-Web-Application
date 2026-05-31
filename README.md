@@ -6,7 +6,7 @@
 
 A full-stack web application for browsing theatre performances and booking seats online — with live availability, secure authentication, and self-service reservation management.
 
-![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=white)
+![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-Express-339933?style=flat-square&logo=node.js&logoColor=white)
 ![MariaDB](https://img.shields.io/badge/MariaDB-10.4+-003545?style=flat-square&logo=mariadb&logoColor=white)
 ![JWT](https://img.shields.io/badge/Auth-JWT-000000?style=flat-square&logo=jsonwebtokens&logoColor=white)
@@ -19,7 +19,7 @@ A full-stack web application for browsing theatre performances and booking seats
 
 ---
 
-##  Table of Contents
+## 📑 Table of Contents
 
 - [Overview](#-overview)
 - [Demo](#-demo)
@@ -38,56 +38,59 @@ A full-stack web application for browsing theatre performances and booking seats
 
 ---
 
-##  Overview
+## 🎯 Overview
 
 **Theatre Booking** is a modern, full-stack web application that brings theatre reservations online. Built as part of a Mobile & Distributed Systems coursework, the project demonstrates a complete three-tier architecture with React, Node.js/Express, and MariaDB.
 
+Users can browse theatres and shows (each with its own image), search across multiple fields, view live seat availability per showtime, book multiple seats in a single atomic transaction, and manage their own reservations.
+
 ---
 
-##  Demo
+## 🖼 Demo
 
 | Login & Sign Up | Browse Theatres & Shows |
 |:---:|:---:|
-| ![Login] | ![Browse] |
-| Tab switch · JWT auth · localStorage token | Cards with badges · Search bar |
+| ![Login](docs/screenshots/01-login.png) | ![Browse](docs/screenshots/03-browse.png) |
+| Tab switch · JWT auth · localStorage token | Image cards · badges · unified search |
 
 | Seat Selection | Reservation Management |
 |:---:|:---:|
-| ![Seats] | ![Reservations] |
-| Interactive grid · Legend · Multi-select | Live status · Cancel button |
+| ![Seats](docs/screenshots/04-seats.png) | ![Reservations](docs/screenshots/05-reservation.png) |
+| Stage indicator · row layout · multi-select | Live status · cancel button |
 
+> 💡 *Add your screenshots to `docs/screenshots/` to enable the previews above.*
 
 ---
 
-##  Features
+## ✨ Features
 
 ### For users
--  **Registration & Login** — secure account creation with hashed passwords
-- **Unified search** — single search bar across theatre, location, and show title
-- **Browse shows** — see theatre, location, duration, and age rating
--  **View showtimes** — pick from available dates, times, and halls
--  **Interactive seat selection** — color-coded grid with live availability
-- **Multi-seat booking** — reserve several seats in one atomic transaction
--  **My Reservations** — view, manage, and cancel personal bookings
-- **Smart cancellation** — only future shows can be cancelled
+- 🔐 **Registration & Login** — secure account creation with hashed passwords
+- 🔍 **Unified search** — single search bar across theatre name, location, and show title
+- 🎬 **Browse shows & theatres** — image cards with theatre, location, duration, and age rating
+- 🕐 **View showtimes** — pick from available dates, times, and halls
+- 💺 **Interactive seat selection** — theatrical row layout with stage indicator and live availability
+- 🎟 **Multi-seat booking** — reserve several seats in one atomic transaction
+- 📋 **My Reservations** — view, manage, and cancel personal bookings
+- 🛡 **Smart cancellation** — only future shows can be cancelled
 
 ### Under the hood
--  **Database transactions** prevent race conditions on concurrent bookings
--  **Stateless JWT** authentication with automatic axios interceptor
--  **Modern UI** with dark theme, gold accents, and responsive layout
--  **Image-ready frontend** with graceful placeholders when images are missing
--  **Hot Module Replacement** for fast development (Vite)
+- 🔄 **Database transactions** prevent race conditions on concurrent bookings
+- 🔑 **Stateless JWT** authentication with automatic axios interceptor
+- 🎨 **Modern theatrical UI** — dark theme, gold accents, Playfair Display typography, responsive layout
+- 🖼 **Per-theatre / per-show images** served locally, with graceful fallbacks when an image is missing
+- ⚡ **Hot Module Replacement** for fast development (Vite)
 
 ---
 
-##  Tech Stack
+## 🛠 Tech Stack
 
 <table>
 <tr>
 <td valign="top" width="33%">
 
 ### Frontend
-- **React 18** — UI with hooks
+- **React 19** — UI with hooks
 - **Vite** — build & dev server
 - **Axios** — HTTP client
 - **Vanilla CSS** — custom dark theme
@@ -145,7 +148,7 @@ HTTP Request
 **Benefits:**
 - Easy to test each layer in isolation
 - Refactoring or swapping the DB doesn't touch the routes
-- Clear responsibilities — no business logic in controllers, no SQL in services that doesn't belong
+- Clear responsibilities — no business logic in controllers, no SQL where it doesn't belong
 
 ---
 
@@ -176,15 +179,17 @@ theatre-booking/
 │   │   ├── showService.js
 │   │   └── reservationService.js
 │   ├── sql/
-│   │   ├── schema.sql                  # CREATE TABLE statements
-│   │   └── seed.sql                    # Sample data
+│   │   └── theatre_booking_full.sql    # Full DB dump (schema + data)
 │   ├── .env                            # (gitignored)
 │   ├── package.json
 │   └── server.js                       # Express entry point
 │
 ├── frontend/
 │   ├── public/
-│   │   └── favicon.svg
+│   │   ├── favicon.svg
+│   │   └── images/                     # Theatre & show images
+│   │       ├── theatre1.jpg ... theatre3.jpg
+│   │       └── show1.jpg ... show4.jpg
 │   ├── src/
 │   │   ├── App.jsx                     # Main React component
 │   │   ├── App.css
@@ -209,7 +214,7 @@ theatre-booking/
 
 ---
 
-##  Quick Start
+## 🚀 Quick Start
 
 ### Prerequisites
 
@@ -226,22 +231,18 @@ git clone https://github.com/<your-username>/theatre-booking.git
 cd theatre-booking
 ```
 
-###  Set up the database
+### 2️⃣ Set up the database
 
-Open the MariaDB CLI and create the database:
+Create the database and import the full dump (schema + sample data):
 
 ```bash
 mariadb -u root -p -e "CREATE DATABASE theatre_booking CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+mariadb -u root -p theatre_booking < backend/sql/theatre_booking_full.sql
 ```
 
-Then load the schema and seed data:
+> The dump already includes all tables, foreign keys, sample theatres/shows/showtimes/seats, and the `image_url` paths.
 
-```bash
-mariadb -u root -p theatre_booking < backend/sql/schema.sql
-mariadb -u root -p theatre_booking < backend/sql/seed.sql
-```
-
-###  Configure backend
+### 3️⃣ Configure backend
 
 Create `backend/.env`:
 
@@ -256,7 +257,7 @@ DB_NAME=theatre_booking
 JWT_SECRET=replace_me_with_a_long_random_string
 ```
 
-###  Install dependencies & start backend
+### 4️⃣ Install dependencies & start backend
 
 ```bash
 cd backend
@@ -269,7 +270,7 @@ You should see:
 Server running on port 5000
 ```
 
-###  Install dependencies & start frontend
+### 5️⃣ Install dependencies & start frontend
 
 In a new terminal:
 
@@ -281,11 +282,11 @@ npm run dev
 
 You should see:
 ```
-VITE v5.x.x  ready in xxx ms
+VITE v8.x.x  ready in xxx ms
 ➜  Local:   http://localhost:5173/
 ```
 
-###  Open in browser
+### 6️⃣ Open in browser
 
 Navigate to **http://localhost:5173** — register an account, browse, and start booking! 🎉
 
@@ -302,7 +303,7 @@ Navigate to **http://localhost:5173** — register an account, browse, and start
 | `DB_NAME` | Database name | `theatre_booking` |
 | `JWT_SECRET` | Signing key for JWTs (use a long random string!) | `a8f5f167f44f...` |
 
-> 
+> ⚠️ **Never commit `.env` to version control.** Keep it listed in `.gitignore`.
 
 ---
 
@@ -313,8 +314,8 @@ Navigate to **http://localhost:5173** — register an account, browse, and start
 | Table | Description |
 |-------|-------------|
 | `users` | Registered accounts with hashed passwords |
-| `theatres` | Physical theatres (name, location) |
-| `shows` | Performances belonging to a theatre |
+| `theatres` | Physical theatres (name, location, image) |
+| `shows` | Performances belonging to a theatre (with image) |
 | `showtimes` | Specific dates/times when a show plays |
 | `seats` | Per-showtime seat inventory with `is_reserved` flag |
 | `reservations` | A user's booking for a showtime |
@@ -334,6 +335,7 @@ reservations ────N:M─────────▶ seats     (via reserv
 
 - All tables use `utf8mb4` to support Greek and emoji characters
 - Primary keys are auto-increment integers
+- `theatres` and `shows` each have an `image_url` column (local paths like `/images/show1.jpg`)
 - Seats are scoped per **showtime** (not per hall), so availability is tracked per individual performance
 - `reservation_seats` has its own surrogate PK (`reservation_seat_id`) plus the two FKs
 
@@ -374,7 +376,7 @@ Base URL: `http://localhost:5000`
 | `GET` | `/showtimes?showId=1` | List showtimes for a show |
 | `GET` | `/seats/:showtimeId` | List seats with availability |
 
-### Reservations 
+### Reservations 🔒
 
 | Method | Endpoint | Description |
 |:------:|----------|-------------|
@@ -412,7 +414,7 @@ Content-Type: application/json
 
 ---
 
-##  Authentication & Security
+## 🔐 Authentication & Security
 
 ### JWT Authentication Flow
 
@@ -430,16 +432,16 @@ Content-Type: application/json
 
 | Concern | Mitigation |
 |---------|------------|
-|  Plain-text passwords | **bcrypt** hashing with 10 salt rounds |
-|  Session hijacking | **Short-lived JWTs** (1 hour expiration) |
-|  SQL injection | **Parameterized queries** everywhere (no string concatenation) |
-|  Race conditions on booking | **Database transactions** with rollback on conflict |
-|  DB connection exhaustion | **Connection pool** (limit: 10) |
-|  Cross-origin attacks | **CORS** middleware configured |
+| 🔑 Plain-text passwords | **bcrypt** hashing with 10 salt rounds |
+| 🎫 Session hijacking | **Short-lived JWTs** (1 hour expiration) |
+| 💉 SQL injection | **Parameterized queries** everywhere (no string concatenation) |
+| 🏁 Race conditions on booking | **Database transactions** with rollback on conflict |
+| 🔌 DB connection exhaustion | **Connection pool** (limit: 10) |
+| 🌐 Cross-origin attacks | **CORS** middleware configured |
 
 ---
 
-##  Testing with Postman
+## 📮 Testing with Postman
 
 A complete Postman collection is provided in `postman/`:
 
@@ -459,33 +461,33 @@ The collection includes ready-to-run examples for:
 
 ---
 
-##  Future Improvements
+## 🚧 Future Improvements
 
-- **Image upload** — backend endpoint with multer instead of URL-only image fields
--  **Admin panel** for managing theatres, shows, and showtimes
-- **Payment integration** (Stripe / PayPal)
--  **Email confirmations** on successful bookings (Nodemailer)
-- **i18n support** (English / Greek toggle)
--  **Test coverage** — Jest (unit) + Supertest (integration)
--  **Refresh tokens** for longer sessions
--  **Rate limiting** on auth endpoints (`express-rate-limit`)
--  **PWA / mobile app** version
--  **QR code tickets** generated on successful booking
--  **Analytics dashboard** for theatre owners
+- 🖼 **Image upload** — backend endpoint with multer so admins can upload images instead of placing files manually
+- 👨‍💼 **Admin panel** for managing theatres, shows, and showtimes
+- 💳 **Payment integration** (Stripe / PayPal)
+- 📧 **Email confirmations** on successful bookings (Nodemailer)
+- 🌐 **i18n support** (English / Greek toggle)
+- 🧪 **Test coverage** — Jest (unit) + Supertest (integration)
+- 🔄 **Refresh tokens** for longer sessions
+- ⚡ **Rate limiting** on auth endpoints (`express-rate-limit`)
+- 📱 **PWA / mobile app** version
+- 🎟 **QR code tickets** generated on successful booking
+- 📊 **Analytics dashboard** for theatre owners
 
 ---
 
-##  Author
+## 👤 Author
 
-**TSALPATOUROS ANDREW**
+**Τσαλπατούρος Ανδρέας**
 
 - 🎓 Mobile & Distributed Systems · Μητροπολιτικό Κολλέγιο
-- 🐙 GitHub: [ADWTSALPA](https://github.com/your-username)
+- 🐙 GitHub: [ADWTSALPA](https://github.com/ADWTSALPA)
 - 📧 Email: atsalpatouros23b@amcstudent.edu.gr
 
 ---
 
-##  License
+## 📄 License
 
 This project is developed for **educational purposes** as part of a university coursework deliverable.
 
